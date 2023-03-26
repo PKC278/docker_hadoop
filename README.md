@@ -1,1 +1,3 @@
 # docker_hadoop
+使用centos7基础镜像搭建伪分布式hadoop集群
+支持x86和arm64架构

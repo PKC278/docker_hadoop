@@ -1,0 +1,14 @@
+ #!/bin/bash
+ if(($#==0))
+ then
+         echo "请输入参数"
+         exit;
+ fi
+         echo "----------------master-----------------"
+         ssh     master $@
+ for((i=1;i<3;i++))
+ do
+         echo "----------------slave$i-----------------"
+         ssh slave$i $@
+ done
+         echo "命令已执行完毕"

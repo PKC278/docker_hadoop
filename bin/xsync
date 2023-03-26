@@ -1,0 +1,16 @@
+ #!/bin/bash
+ if(($#!=1))
+ then
+         echo "只能输入一个参数"
+         exit;
+ fi
+ dirpath=$(cd -P `dirname $1`;pwd)
+ filename=$(basename $1)
+         echo "-----------------master--------------"
+ rsync -rvlt $dirpath/$filename root@master:$dirpath
+ for((i=1;i<3;i++))
+ do
+        echo "-----------------slave$i----------------"
+ rsync -rvlt $dirpath/$filename root@slave$i:$dirpath
+ done
+         echo "命令执行完毕"
