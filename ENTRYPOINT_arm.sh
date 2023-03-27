@@ -6,6 +6,7 @@ HOSTNAME=$(hostname)
 # 如果主机名包含 "master"，则执行附加命令
 if [[ "$HOSTNAME" == *"master"* ]]; then
     /usr/local/software/hadoop-3.3.1/sbin/start-all.sh
+    echo "启动完成"
 fi
 
 # 定义一个函数，用于在接收到SIGTERM或SIGINT时执行清理操作
