@@ -1,7 +1,7 @@
 version: "3"
 services:
   master:
-    image: pkc123/hadoop:laster
+    image: pkc123/hadoop:latest
     container_name: CentOS_master
     hostname: master
     ports:
@@ -15,14 +15,14 @@ services:
       - slave1
       - slave2
   slave1:
-    image: pkc123/hadoop:laster
+    image: pkc123/hadoop:latest
     container_name: CentOS_slave1
     hostname: slave1
     networks:
       hadoop:
         ipv4_address: 172.28.1.2
   slave2:
-    image: pkc123/hadoop:laster
+    image: pkc123/hadoop:latest
     container_name: CentOS_slave2
     hostname: slave2
     networks:
