@@ -24,7 +24,9 @@
    docker build -t hadoop:v1 .
    ```
 
-5. 在项目根目录下运行下面的命令启动hadoop集群
+5. 修改docker-compose.yml中所调用镜像的标签为hadoop:v1
+
+6. 在项目根目录下运行下面的命令启动hadoop集群
 
    ```shell
    docker-compose up -d
@@ -38,9 +40,9 @@
    docker pull pkc123/hadoop
    ```
 
-2. 下载docker compose文件https://github.com/PKC278/docker_hadoop/blob/main/docker-compose.yml 
+2. 下载docker-compose.yml文件https://github.com/PKC278/docker_hadoop/blob/main/docker-compose.yml 
 
-5. 在docker compose文件同级目录中运行下面的命令启动hadoop集群
+5. 在docker-compose.yml文件同级目录中运行下面的命令启动hadoop集群
 
    ```shell
    docker-compose up -d
