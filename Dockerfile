@@ -3,9 +3,8 @@ RUN yum update -y \
     && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo \
     && yum clean all \
     && mkdir -p /root/software \
-    && mkdir -p /usr/local/software
-
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
+    && mkdir -p /usr/local/software \
+    && if [ "$(uname -m)" = "aarch64" ]; then \
     wget -O /root/software/jdk.tar.gz https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.18%2B10/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.18_10.tar.gz && \
     wget -O /root/software/hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5-aarch64.tar.gz ; \
     elif [ "$(uname -m)" = "x86_64" ]; then \
