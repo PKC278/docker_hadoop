@@ -39,5 +39,4 @@ RUN mkdir -p /root/.ssh \
     && /usr/local/software/hadoop-3.3.5/bin/hdfs namenode -format \
     && chmod +x /ENTRYPOINT.sh
 
-
 ENTRYPOINT ["/bin/bash","-c","/ENTRYPOINT.sh"]
