@@ -14,10 +14,6 @@
    git clone --depth 1 https://github.com/PKC278/docker_hadoop.git
    ```
 
-2. 从https://www.oracle.com/java/technologies/downloads/ 下载jdk11或jdk8，放到项目根目录，并根据下载的文件名修改dockerfile中相应的文件名。
-
-3. 从https://dlcdn.apache.org/hadoop/common/ 下载hadoop，放到项目根目录，并根据下载的文件名修改dockerfile中相应的文件名。 
-
 4. 在项目根目录下运行下面的命令编译镜像
 
    ```shell
