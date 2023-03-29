@@ -5,9 +5,6 @@ RUN yum update -y \
     && mkdir -p /root/software \
     && mkdir -p /usr/local/software
 
-WORKDIR /root
-COPY bin /root/software/
-
 RUN if [ "$(uname -m)" = "aarch64" ]; then \
     wget -O /root/software/jdk.tar.gz https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.18%2B10/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.18_10.tar.gz && \
     wget -O /root/software/hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5-aarch64.tar.gz ; \
@@ -15,6 +12,9 @@ RUN if [ "$(uname -m)" = "aarch64" ]; then \
     wget -O /root/software/jdk.tar.gz https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.18%2B10/OpenJDK11U-jdk_x64_linux_hotspot_11.0.18_10.tar.gz && \
     wget -O /root/software/hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz ; \
     fi
+
+WORKDIR /root
+COPY bin /root/software/
 
 RUN mkdir -p /root/.ssh \
     && mv /root/software/bin /root/ \
