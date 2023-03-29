@@ -37,6 +37,10 @@ RUN mkdir -p /root/.ssh \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.5/bin/hdfs namenode -format \
-    && chmod +x /ENTRYPOINT.sh
+    && chmod +x /ENTRYPOINT.sh \
+    && chmod 700 /root/.ssh \
+    && chmod 600 /root/.ssh/* \
+    && chmod 0600 /etc/ssh/ \
+    && chmod 0600 /etc/ssh/*
 
 ENTRYPOINT ["/bin/bash","-c","/ENTRYPOINT.sh"]
