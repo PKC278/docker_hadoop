@@ -17,12 +17,19 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+  <!-- 指定Hadoop辅助名称节点主机配置 -->
   <property>
-    <name>hadoop.tmp.dir</name>
-    <value>/usr/local/software/hadoop-3.3.1/data</value>
+    <name>dfs.namenode.secondary.http-address</name>
+    <value>slave2:50090</value>
   </property>
   <property>
-    <name>fs.defaultFS</name>
-    <value>hdfs://master:8020</value>
+    <name>dfs.replication</name>
+    <value>3</value>
+    <description>设置副本数</description>
+  </property>
+  <!--配置namenode的web界面-->
+  <property>
+    <name>dfs.namenode.http-address</name>
+    <value>master:9870</value>
   </property>
 </configuration>

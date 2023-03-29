@@ -5,7 +5,7 @@ HOSTNAME=$(hostname)
 
 # 如果主机名包含 "master"，则执行附加命令
 if [[ "$HOSTNAME" == *"master"* ]]; then
-    /usr/local/software/hadoop-3.3.1/sbin/start-all.sh
+    /usr/local/software/hadoop-3.3.5/sbin/start-all.sh
     echo "启动完成"
 fi
 
@@ -15,7 +15,7 @@ function cleanup {
     # 在此处添加您的清理逻辑，例如保存文件等
     # 如果主机名包含 "master"，则执行附加命令
     if [[ "$HOSTNAME" == *"master"* ]]; then
-        /usr/local/software/hadoop-3.3.1/sbin/stop-all.sh
+        /usr/local/software/hadoop-3.3.5/sbin/stop-all.sh
     fi
     exit 0
 }
