@@ -20,8 +20,8 @@ RUN mkdir -p /root/.ssh \
     && mv /root/software/bin /root/ \
     && mv /root/software/ssh_key/* /etc/ssh/ \
     && mv /root/software/ssh/* /root/.ssh/ \
-    && tar -zxvf /root/software/jdk.tar.gz -C /usr/local/software/ >/dev/null 2>&1 \
-    && tar -zxvf /root/software/hadoop.tar.gz -C /usr/local/software/ >/dev/null 2>&1 \
+    && tar -zxvf /root/software/jdk.tar.gz -C /usr/local/software/ \
+    && tar -zxvf /root/software/hadoop.tar.gz -C /usr/local/software/ \
     && mv /root/software/ENTRYPOINT.sh /ENTRYPOINT.sh \
     && mv /root/software/hadoop/* /usr/local/software/hadoop-3.3.5/etc/hadoop/ \
     && mv /root/software/sbin/* /usr/local/software/hadoop-3.3.5/sbin/ \
