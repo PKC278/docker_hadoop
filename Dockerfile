@@ -40,6 +40,11 @@ RUN mkdir -p /root/.ssh \
     && chmod 700 /root/.ssh \
     && chmod 600 /root/.ssh/* \
     && chmod 0600 /etc/ssh/ \
-    && chmod 0600 /etc/ssh/*
+    && chmod 0600 /etc/ssh/* \
+    && echo 'root:root' | chpasswd \
+    && sed  's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
+    && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
 ENTRYPOINT ["/bin/bash","-c","/ENTRYPOINT.sh"]

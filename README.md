@@ -6,6 +6,8 @@
 
 从dockerfile编译镜像或者从Docker Hub直接拉取我编译好的镜像
 
+docker-compose映射容器22端口到主机50010端口，用户为root密码为root
+
 ### 1. 从dockerfile编译镜像
 
 1. 克隆仓库
@@ -43,3 +45,4 @@
    ```shell
    docker-compose up -d
    ```
+
