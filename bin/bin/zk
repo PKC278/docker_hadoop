@@ -1,0 +1,14 @@
+#!/bin/bash
+if(($#!=1))
+then
+        echo "本脚本只支持参数start，status，stop，restart"
+        exit;
+fi
+        echo "-------------------------master-----------------------------"
+        ssh master zkServer.sh $@
+for((i=1;i<3;i++))
+do
+        echo "-------------------------slave$i-----------------------------"
+        ssh slave$i zkServer.sh $@
+done
+        echo "命令执行完毕"

@@ -4,6 +4,8 @@ RUN yum update -y \
     && yum clean all \
     && mkdir -p /root/software \
     && mkdir -p /usr/local/software \
+    && wget -O /root/software/hbase.tar.gz https://dlcdn.apache.org/hbase/2.4.17/hbase-2.4.17-bin.tar.gz \
+    && wget -O /root/software/zookeeper.tar.gz https://dlcdn.apache.org/zookeeper/zookeeper-3.7.1/apache-zookeeper-3.7.1-bin.tar.gz \
     && if [ "$(uname -m)" = "aarch64" ]; then \
     wget -O /root/software/jdk.tar.gz https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.18%2B10/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.18_10.tar.gz && \
     wget -O /root/software/hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5-aarch64.tar.gz ; \
@@ -19,17 +21,31 @@ RUN mkdir -p /root/.ssh \
     && mv /root/software/bin /root/ \
     && mv /root/software/ssh_key/* /etc/ssh/ \
     && mv /root/software/ssh/* /root/.ssh/ \
-    && tar -zxvf /root/software/jdk.tar.gz -C /usr/local/software/ \
-    && tar -zxvf /root/software/hadoop.tar.gz -C /usr/local/software/ \
+    && tar -zxvf /root/software/jdk.tar.gz -C /usr/local/software/ > /dev/null \
+    && tar -zxvf /root/software/hadoop.tar.gz -C /usr/local/software/ > /dev/null \
+    && tar -zxvf /root/software/hbase.tar.gz -C /usr/local/software/ > /dev/null \
+    && tar -zxvf /root/software/zookeeper.tar.gz -C /usr/local/software/ > /dev/null \
+    && mv /usr/local/software/apache-zookeeper-3.7.1-bin/ /usr/local/software/zookeeper-3.7.1 \
     && mv /root/software/ENTRYPOINT.sh /ENTRYPOINT.sh \
     && mv /root/software/hadoop/* /usr/local/software/hadoop-3.3.5/etc/hadoop/ \
     && mv /root/software/sbin/* /usr/local/software/hadoop-3.3.5/sbin/ \
+    && mv /root/software/hbase/* /usr/local/software/hbase-2.4.17/conf/ \
+    && mv /root/software/Zookeeper/* /usr/local/software/zookeeper-3.7.1/conf \
+    && mkdir -p /usr/local/software/hbase-2.4.17/data/tmp \
+    && mkdir -p mkdir /usr/local/software/zookeeper-3.7.1/datadir \
+    && mkdir -p mkdir /usr/local/software/zookeeper-3.7.1/log \
+    && touch /usr/local/software/zookeeper-3.7.1/datadir/myid \
+    && cp /usr/local/software/hadoop-3.3.5/etc/hadoop/hdfs-site.xml /usr/local/software/hbase-2.4.17/conf/ \
     && rm -rf /root/software/ \
     && echo 'export PATH=$PATH:/root/bin' | sudo tee -a /etc/profile \
     && echo 'export JAVA_HOME=/usr/local/software/jdk-11.0.18+10' | sudo tee -a /etc/profile \
     && echo 'export PATH=$PATH:$JAVA_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'export HADOOP_HOME=/usr/local/software/hadoop-3.3.5' | sudo tee -a /etc/profile \
     && echo 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin' | sudo tee -a /etc/profile \
+    && echo 'export ZOOKEEPER_HOME=/usr/local/software/zookeeper-3.7.1' | sudo tee -a /etc/profile \
+    && echo 'export PATH=$PATH:$ZOOKEEPER_HOME/bin' | sudo tee -a /etc/profile \
+    && echo 'export HBASE_HOME=/usr/local/software/hbase-2.4.17' | sudo tee -a /etc/profile \
+    && echo 'export PATH=$PATH:$HBASE_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'source /etc/profile' | sudo tee -a /root/.bashrc \
     && localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8 \
     && echo 'LANG="zh_CN.UTF-8"' > /etc/locale.conf \

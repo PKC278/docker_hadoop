@@ -5,8 +5,17 @@ HOSTNAME=$(hostname)
 
 # 如果主机名包含 "master"，则执行附加命令
 if [[ "$HOSTNAME" == *"master"* ]]; then
+    echo "0" > /usr/local/software/zookeeper-3.7.1/datadir/myid
+    /root/bin/zk start
     /usr/local/software/hadoop-3.3.5/sbin/start-all.sh
+    /usr/local/software/hbase-2.4.17/bin/start-hbase.sh
     echo "启动完成"
+fi
+if [[ "$HOSTNAME" == *"slave1"* ]]; then
+    echo "1" > /usr/local/software/zookeeper-3.7.1/datadir/myid
+fi
+if [[ "$HOSTNAME" == *"slave2"* ]]; then
+    echo "2" > /usr/local/software/zookeeper-3.7.1/datadir/myid
 fi
 
 # 定义一个函数，用于在接收到SIGTERM或SIGINT时执行清理操作
