@@ -36,4 +36,5 @@ trap cleanup SIGTERM SIGINT
 while true
 do
     echo "Docker容器正在运行..." > /dev/null
+    sleep 2
 done

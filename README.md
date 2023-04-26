@@ -27,7 +27,7 @@ docker-compose映射容器22端口到主机50010端口，用户为root密码为r
 6. 在项目根目录下运行下面的命令启动hadoop集群
 
    ```shell
-   docker-compose up -d
+   docker-compose -f docker-compose.yml -p docker_hadoop up -d
    ```
 
 ### 2. 从Docker Hub拉取镜像
@@ -43,6 +43,6 @@ docker-compose映射容器22端口到主机50010端口，用户为root密码为r
 5. 在docker-compose.yml文件同级目录中运行下面的命令启动hadoop集群
 
    ```shell
-   docker-compose up -d
+   docker-compose -f docker-compose.yml -p docker_hadoop up -d
    ```
 
