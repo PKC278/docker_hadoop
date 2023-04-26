@@ -15,14 +15,69 @@
 <configuration>
 
   <!-- Site specific YARN configuration properties -->
-  <!-- Reducer获取数据的方式 -->
   <property>
-    <name>yarn.nodemanager.aux-services</name>
-    <value>mapreduce_shuffle</value>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
   </property>
-  <!-- 指定YARN的ResourceManager的地址 -->
   <property>
-    <name>yarn.resourcemanager.hostname</name>
+    <name>yarn.node-labels.enabled</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>yarn.node-labels.configuration-type</name>
+    <value>centralized</value>
+  </property>
+
+  <property>
+    <name>yarn.node-labels.fs-store.root-dir</name>
+    <value>file:///data/label</value>
+    <description>标签数据的存储位置</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.ha.enabled</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.cluster-id</name>
+    <value>cluster1</value>
+    <description>集群唯一标识</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.ha.rm-ids</name>
+    <value>rm1,rm2</value>
+    <description>两个RM的唯一标识</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.hostname.rm1</name>
     <value>master</value>
+    <description>第一个RM部署在的机器名</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.hostname.rm2</name>
+    <value>slave1</value>
+    <description>第二个RM部署在的机器名</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.webapp.address.rm1</name>
+    <value>master:8088</value>
+    <description>第一个RM的web ui的端口</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.webapp.address.rm2</name>
+    <value>slave1:8088</value>
+    <description>第二个RM的web ui的端口</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.zk-address</name>
+    <value>master:2181,slave1:2181,slave2:2181</value>
+    <description>zk的部署的主机名和端口</description>
   </property>
 </configuration>
