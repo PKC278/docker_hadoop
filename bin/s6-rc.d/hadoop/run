@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 /usr/sbin/sshd
 # 获取主机名
 HOSTNAME=$(hostname)
@@ -8,7 +8,6 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
     /root/bin/zk start
     /usr/local/software/hadoop-3.3.5/sbin/start-all.sh
     /usr/local/software/hbase-2.4.17/bin/start-hbase.sh
-    echo "启动完成"
 fi
 if [[ "$HOSTNAME" == *"slave1"* ]]; then
     echo "1" > /usr/local/software/zookeeper-3.7.1/datadir/myid
@@ -16,4 +15,5 @@ fi
 if [[ "$HOSTNAME" == *"slave2"* ]]; then
     echo "2" > /usr/local/software/zookeeper-3.7.1/datadir/myid
 fi
+echo "$HOSTNAME"启动完成
 tail -f /dev/null

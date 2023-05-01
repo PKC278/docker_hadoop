@@ -31,7 +31,6 @@ RUN mv /tmp/bin /root/ \
     && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz > /dev/null \
     && tar -C / -Jxpf /tmp/s6-overlay.tar.xz > /dev/null \
     && mv /usr/local/software/apache-zookeeper-3.7.1-bin/ /usr/local/software/zookeeper-3.7.1 \
-    && mv /tmp/ENTRYPOINT.sh /ENTRYPOINT.sh \
     && mv /tmp/hadoop/* /usr/local/software/hadoop-3.3.5/etc/hadoop/ \
     && mv /tmp/sbin/* /usr/local/software/hadoop-3.3.5/sbin/ \
     && mv /tmp/hbase/* /usr/local/software/hbase-2.4.17/conf/ \
@@ -59,7 +58,6 @@ RUN mv /tmp/bin /root/ \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.5/bin/hdfs namenode -format \
-    && chmod +x /ENTRYPOINT.sh \
     && chmod +x /etc/s6-overlay/s6-rc.d/hadoop/* \
     && chmod 700 /root/.ssh \
     && chmod 600 /root/.ssh/* \
