@@ -1,0 +1,1 @@
+exec /etc/s6-overlay/s6-rc.d/hadoop/run

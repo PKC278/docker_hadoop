@@ -69,4 +69,5 @@ RUN mv /tmp/bin /root/ \
     && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
+ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 ENTRYPOINT ["/init"]
