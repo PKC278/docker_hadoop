@@ -141,5 +141,5 @@
 # Override text processing tools for use by these launch scripts.
 # export GREP="${GREP-grep}"
 # export SED="${SED-sed}"
-export JAVA_HOME=/usr/local/software/jdk-11.0.18+10
+export JAVA_HOME=/usr/local/software/jdk8u372-b07
 export HBASE_MANAGES_ZK=flase

@@ -43,4 +43,4 @@
 # Specify the log4j settings for the JobHistoryServer
 # Java property: hadoop.root.logger
 #export HADOOP_JHS_LOGGER=INFO,RFA
-export JAVA_HOME=/usr/local/software/jdk-11.0.18+10
+export JAVA_HOME=/usr/local/software/jdk8u372-b07
