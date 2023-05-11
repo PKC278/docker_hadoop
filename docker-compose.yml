@@ -38,7 +38,7 @@ services:
       hadoop:
         ipv4_address: 172.28.1.4
 networks:
-  network:
+  hadoop:
     driver: bridge
     ipam:
       driver: default
