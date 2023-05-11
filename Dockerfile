@@ -1,12 +1,16 @@
 FROM centos:centos7
 RUN yum update -y \
     && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo \
-    && yum clean all \
     && mkdir -p /usr/local/software \
     && mkdir -p /root/.ssh \
     && wget -O /tmp/hbase.tar.gz https://dlcdn.apache.org/hbase/2.4.17/hbase-2.4.17-bin.tar.gz \
     && wget -O /tmp/zookeeper.tar.gz https://dlcdn.apache.org/zookeeper/zookeeper-3.7.1/apache-zookeeper-3.7.1-bin.tar.gz \
     && wget -O /tmp/hive.tar.gz https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz \
+    && wget -O /tmp/mysql.rpm https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm \
+    && rpm -ivh /tmp/mysql.rpm \
+    && yum update -y \
+    && yum install -y mysql-community-client \
+    && yum clean all \
     && if [ "$(uname -m)" = "aarch64" ]; then \
     wget -O /tmp/s6-overlay-noarch.tar.xz https://github.com/just-containers/s6-overlay/releases/download/v3.1.4.2/s6-overlay-noarch.tar.xz  && \
     wget -O /tmp/s6-overlay.tar.xz https://github.com/just-containers/s6-overlay/releases/download/v3.1.4.2/s6-overlay-aarch64.tar.xz  && \
@@ -64,6 +68,7 @@ RUN mv /tmp/bin /root/ \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.5/bin/hdfs namenode -format \
+    && /usr/local/software/hive-3.1.3/bin/schematool -initSchema -dbType derby \
     && chmod +x /etc/s6-overlay/s6-rc.d/hadoop/* \
     && chmod 700 /root/.ssh \
     && chmod 600 /root/.ssh/* \

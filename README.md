@@ -38,7 +38,7 @@ docker-compose映射容器22端口到主机50010端口，用户为root密码为r
    docker pull pkc123/hadoop
    ```
 
-2. 下载docker-compose.yml文件https://github.com/PKC278/docker_hadoop/blob/main/docker-compose.yml 
+2. 下载[docker-compose.yml](https://raw.githubusercontent.com/PKC278/docker_hadoop/main/docker-compose.yml)文件
 
 5. 在docker-compose.yml文件同级目录中运行下面的命令启动hadoop集群
 

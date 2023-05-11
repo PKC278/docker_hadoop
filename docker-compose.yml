@@ -28,8 +28,17 @@ services:
     networks:
       hadoop:
         ipv4_address: 172.28.1.3
+  mysql:
+    image: mysql:latest
+    container_name: MySQL
+    hostname: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      hadoop:
+        ipv4_address: 172.28.1.4
 networks:
-  hadoop:
+  network:
     driver: bridge
     ipam:
       driver: default
