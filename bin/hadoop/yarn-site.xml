@@ -16,8 +16,13 @@
 
   <!-- Site specific YARN configuration properties -->
   <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+    <description>The class to use as the resource scheduler.</description>
     <name>yarn.resourcemanager.scheduler.class</name>
-    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
   </property>
   <property>
     <name>yarn.node-labels.enabled</name>

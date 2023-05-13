@@ -6,6 +6,9 @@ RUN yum update -y \
     && wget -O /tmp/hbase.tar.gz https://dlcdn.apache.org/hbase/2.4.17/hbase-2.4.17-bin.tar.gz \
     && wget -O /tmp/zookeeper.tar.gz https://dlcdn.apache.org/zookeeper/zookeeper-3.7.1/apache-zookeeper-3.7.1-bin.tar.gz \
     && wget -O /tmp/hive.tar.gz https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz \
+    && wget -O /tmp/sqoop.tar.gz https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.tar.gz \
+    && wget -O /tmp/sqoop.bin.tar.gz https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz \
+    && wget -O /tmp/mysql-connector-j.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.0.33.tar.gz \
     && wget -O /tmp/mysql.rpm https://dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm \
     && rpm -ivh /tmp/mysql.rpm \
     && yum update -y \
@@ -34,6 +37,9 @@ RUN mv /tmp/bin /root/ \
     && tar -zxvf /tmp/hbase.tar.gz -C /usr/local/software/ > /dev/null \
     && tar -zxvf /tmp/zookeeper.tar.gz -C /usr/local/software/ > /dev/null \
     && tar -zxvf /tmp/hive.tar.gz -C /usr/local/software/ > /dev/null \
+    && tar -zxvf /tmp/sqoop.tar.gz -C /usr/local/software/ > /dev/null \
+    && tar -zxvf /tmp/sqoop.bin.tar.gz -C /tmp/ > /dev/null \
+    && tar -zxvf /tmp/mysql-connector-j.tar.gz -C /tmp/ > /dev/null \
     && mv /usr/local/software/apache-hive-3.1.3-bin/ /usr/local/software/hive-3.1.3 \
     && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz > /dev/null \
     && tar -C / -Jxpf /tmp/s6-overlay.tar.xz > /dev/null \
@@ -43,6 +49,9 @@ RUN mv /tmp/bin /root/ \
     && mv /tmp/hbase/* /usr/local/software/hbase-2.4.17/conf/ \
     && mv /tmp/Zookeeper/* /usr/local/software/zookeeper-3.7.1/conf \
     && mv /tmp/hive/* /usr/local/software/hive-3.1.3/conf \
+    && mv /tmp/sqoop/* /usr/local/software/sqoop-1.4.7/conf \
+    && mv /tmp/sqoop-1.4.7.bin__hadoop-2.6.0/sqoop-1.4.7.jar /usr/local/software/hadoop-3.3.5/share/hadoop/yarn/ \
+    && mv /tmp/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar /usr/local/software/sqoop-1.4.7/lib/ \
     && mv /tmp/s6-rc.d/hadoop /etc/s6-overlay/s6-rc.d/ \
     && touch /etc/s6-overlay/s6-rc.d/user/contents.d/hadoop \
     && mkdir -p /usr/local/software/hbase-2.4.17/data/tmp \
@@ -52,6 +61,8 @@ RUN mv /tmp/bin /root/ \
     && cp /usr/local/software/hadoop-3.3.5/etc/hadoop/hdfs-site.xml /usr/local/software/hbase-2.4.17/conf/ \
     && rm -rf /tmp/* \
     && echo 'export PATH=$PATH:/root/bin' | sudo tee -a /etc/profile \
+    && echo 'export SQOOP_HOME=/usr/local/software/sqoop-1.4.7' | sudo tee -a /etc/profile \
+    && echo 'export PATH=$PATH:$SQOOP_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'export JAVA_HOME=/usr/local/software/jdk8u372-b07' | sudo tee -a /etc/profile \
     && echo 'export PATH=$PATH:$JAVA_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'export HADOOP_HOME=/usr/local/software/hadoop-3.3.5' | sudo tee -a /etc/profile \
