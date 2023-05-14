@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - '/docker-compose.yml'
       - '/README.md'
+      - '/.github/workflows/docker-image.yml'
     branches:
       - main
 jobs:
