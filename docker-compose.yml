@@ -6,6 +6,7 @@ services:
     hostname: master
     ports:
       - "9870:9870"
+      - "8088:8088"
       - "9000:22"
     networks:
       hadoop:
@@ -17,8 +18,6 @@ services:
     image: pkc123/hadoop:latest
     container_name: CentOS_slave1
     hostname: slave1
-    ports:
-      - "8088:8088"
     networks:
       hadoop:
         ipv4_address: 172.28.1.2
