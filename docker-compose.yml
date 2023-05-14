@@ -6,7 +6,7 @@ services:
     hostname: master
     ports:
       - "9870:9870"
-      - "50010:22"
+      - "9000:22"
     networks:
       hadoop:
         ipv4_address: 172.28.1.1
