@@ -2,6 +2,9 @@ name: Hadoop Docker
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - '/docker-compose.yml'
+      - '/README.md'
     branches:
       - main
 jobs:
