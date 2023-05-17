@@ -51,7 +51,8 @@ RUN mv /tmp/bin /root/ \
     && mv /tmp/hive/* /usr/local/software/hive-3.1.3/conf \
     && mv /tmp/sqoop/* /usr/local/software/sqoop-1.4.7/conf \
     && mv /tmp/sqoop-1.4.7.bin__hadoop-2.6.0/sqoop-1.4.7.jar /usr/local/software/hadoop-3.3.5/share/hadoop/yarn/ \
-    && mv /tmp/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar /usr/local/software/sqoop-1.4.7/lib/ \
+    && cp /tmp/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar /usr/local/software/sqoop-1.4.7/lib/ \
+    && cp /tmp/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar /usr/local/software/hive-3.1.3/lib/ \
     && mv /tmp/s6-rc.d/hadoop /etc/s6-overlay/s6-rc.d/ \
     && touch /etc/s6-overlay/s6-rc.d/user/contents.d/hadoop \
     && mkdir -p /usr/local/software/hbase-2.4.17/data/tmp \
@@ -79,7 +80,6 @@ RUN mv /tmp/bin /root/ \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.5/bin/hdfs namenode -format \
-    && /usr/local/software/hive-3.1.3/bin/schematool -initSchema -dbType derby \
     && chmod +x /etc/s6-overlay/s6-rc.d/hadoop/* \
     && chmod 700 /root/.ssh \
     && chmod 600 /root/.ssh/* \

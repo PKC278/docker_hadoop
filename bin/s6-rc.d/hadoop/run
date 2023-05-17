@@ -14,5 +14,7 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
     /root/bin/zk start
     /usr/local/software/hadoop-3.3.5/sbin/start-all.sh
     /usr/local/software/hbase-2.4.17/bin/start-hbase.sh
+    /usr/local/software/hive-3.1.3/bin/schematool -initSchema -dbType mysql
+    echo "数据库初始化完成"
 fi
 echo "$HOSTNAME"启动完成

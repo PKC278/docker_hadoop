@@ -2,6 +2,12 @@
 使用centos7基础镜像搭建伪分布式hadoop集群
 支持x86和arm64架构
 
+镜像包含以下服务：
+
+hadoop-3.3.5  hbase-2.4.17  zookeeper-3.7.1  apache-hive-3.1.3  sqoop-1.4.7  mysql-community-client_8  jdk8
+
+已配置mysql为默认Metastore Database
+
 **注意：本项目只用于研究学习，未对生产环境进行过测试**
 
 ## 如何使用

@@ -14,6 +14,7 @@ services:
     depends_on:
       - slave1
       - slave2
+      - mysql
   slave1:
     image: pkc123/hadoop:latest
     container_name: CentOS_slave1
@@ -36,6 +37,8 @@ services:
     hostname: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3316:3306"
     networks:
       hadoop:
         ipv4_address: 172.28.1.4
