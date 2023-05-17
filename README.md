@@ -14,7 +14,7 @@ hadoop-3.3.5  hbase-2.4.17  zookeeper-3.7.1  apache-hive-3.1.3  sqoop-1.4.7  mys
 
 从dockerfile编译镜像或者从Docker Hub直接拉取我编译好的镜像
 
-docker-compose映射容器22端口到主机50010端口，用户为root密码为root
+docker-compose映射容器22端口到主机9000端口，用户为root密码为root
 
 ### 1. 从dockerfile编译镜像
 
