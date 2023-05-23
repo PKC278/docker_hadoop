@@ -21,6 +21,14 @@
   <!-- WARNING!!! You must make your changes in hive-site.xml instead.         -->
   <!-- Hive Execution Parameters -->
   <property>
+    <name>system:java.io.tmpdir</name>
+    <value>/tmp/hive/java</value>
+  </property>
+  <property>
+    <name>system:user.name</name>
+    <value>${user.name}</value>
+  </property>
+  <property>
     <name>hive.exec.script.wrapper</name>
     <value/>
     <description/>
@@ -450,7 +458,7 @@
   </property>
   <property>
     <name>hive.metastore.warehouse.dir</name>
-    <value>/user/hive/warehouse</value>
+    <value>hdfs://master:9000/hive?/hive/warehouse</value>
     <description>location of default database for the warehouse</description>
   </property>
   <property>
@@ -460,7 +468,7 @@
   </property>
   <property>
     <name>hive.metastore.uris</name>
-    <value/>
+    <value>thrift://master:9083</value>
     <description>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
   </property>
   <property>
@@ -4147,7 +4155,7 @@
   </property>
   <property>
     <name>hive.server2.thrift.bind.host</name>
-    <value/>
+    <value>master</value>
     <description>Bind host on which to run the HiveServer2 Thrift service.</description>
   </property>
   <property>
