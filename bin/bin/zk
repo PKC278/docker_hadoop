@@ -11,4 +11,4 @@ do
         echo "-------------------------slave$i-----------------------------"
         ssh slave$i zkServer.sh $@
 done
-        echo "命令执行完毕"
+        echo "zk命令执行完毕"
