@@ -12,7 +12,7 @@ hadoop-3.3.5  hbase-2.4.17  zookeeper-3.7.1  apache-hive-3.1.3  sqoop-1.4.7  mys
 
 ## 如何使用
 
-从dockerfile编译镜像或者从Docker Hub直接拉取我编译好的镜像
+从dockerfile编译镜像或者直接拉取编译好的镜像
 
 docker-compose映射容器22端口到主机9000端口，用户为root密码为root
 
@@ -43,8 +43,15 @@ docker-compose映射容器22端口到主机9000端口，用户为root密码为ro
 1. 拉取镜像
 
    ```shell
-   docker pull pkc123/hadoop
+   docker pull pkc278/hadoop
    ```
+
+   或
+
+   ```shell
+   docker pull ghcr.io/pkc278/hadoop
+   ```
+
 
 2. 下载[docker-compose.yml](https://raw.githubusercontent.com/PKC278/docker_hadoop/main/docker-compose.yml)文件
 
@@ -53,4 +60,3 @@ docker-compose映射容器22端口到主机9000端口，用户为root密码为ro
    ```shell
    docker-compose -f docker-compose.yml -p docker_hadoop up -d
    ```
-
