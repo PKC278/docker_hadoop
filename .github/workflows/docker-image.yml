@@ -45,5 +45,5 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/hadoop:latest
             ${{ secrets.DOCKER_USERNAME }}/hadoop:hadoop-3.3.5
-            ghcr.io/${{ secrets.GHCR_USERNAME }}/hadoop:latest
-            ghcr.io/${{ secrets.GHCR_USERNAME }}/hadoop:hadoop-3.3.5
+            ghcr.io/${{ secrets.GHCR_USERNAME }}/docker_hadoop:latest
+            ghcr.io/${{ secrets.GHCR_USERNAME }}/docker_hadoop:hadoop-3.3.5
