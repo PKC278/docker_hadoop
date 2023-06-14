@@ -41,7 +41,7 @@
   -->
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://master:9000/hbase</value>
+    <value>hdfs://master:8020/hbase</value>
   </property>
   <property>
     <name>hbase.cluster.distributed</name>
