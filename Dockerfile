@@ -12,6 +12,7 @@ RUN yum update -y \
     && wget -O /tmp/mysql-connector-j.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.1.0.tar.gz \
     && wget -O /tmp/mysql.rpm https://dev.mysql.com/get/mysql80-community-release-el7-10.noarch.rpm \
     && wget -O /tmp/s6-overlay-noarch.tar.xz https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz \
+    && wget -O /tmp/scala.tar.gz https://github.com/lampepfl/dotty/releases/download/3.3.0/scala3-3.3.0.tar.gz \
     && rpm -ivh /tmp/mysql.rpm \
     && yum update -y \
     && yum install -y mysql-community-client \
@@ -41,6 +42,7 @@ RUN mv /tmp/bin /root/ \
     && tar -zxvf /tmp/sqoop.bin.tar.gz -C /tmp/ > /dev/null \
     && tar -zxvf /tmp/spark.bin.tar.gz -C /usr/local/software/ > /dev/null \
     && tar -zxvf /tmp/mysql-connector-j.tar.gz -C /tmp/ > /dev/null \
+    && tar -zxvf /tmp/scala.tar.gz -C /usr/local/software/ > /dev/null \
     && mv /usr/local/software/apache-hive-3.1.3-bin/ /usr/local/software/hive-3.1.3 \
     && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz > /dev/null \
     && tar -C / -Jxpf /tmp/s6-overlay.tar.xz > /dev/null \
@@ -79,6 +81,8 @@ RUN mv /tmp/bin /root/ \
     && echo 'export PATH=$PATH:$HIVE_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'export SPARK_HOME=/usr/local/software/spark-3.4.1' | sudo tee -a /etc/profile \
     && echo 'export PATH=$PATH:$SPARK_HOME/bin' | sudo tee -a /etc/profile \
+    && echo 'export SCALA_HOME=/usr/local/software/scala3-3.3.0' | sudo tee -a /etc/profile \
+    && echo 'export PATH=$PATH:$SCALA_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'source /etc/profile' | sudo tee -a /root/.bashrc \
     && localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8 \
     && echo 'LANG="zh_CN.UTF-8"' > /etc/locale.conf \
