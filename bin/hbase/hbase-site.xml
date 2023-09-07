@@ -57,7 +57,7 @@
   </property>
   <property>
     <name>hbase.tmp.dir</name>
-    <value>/usr/local/software/hbase-2.4.17/data/tmp</value>
+    <value>/usr/local/software/hbase-2.5.5/data/tmp</value>
   </property>
   <property>
     <name>zookeeper.znode.parent</name>

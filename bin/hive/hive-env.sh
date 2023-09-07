@@ -52,4 +52,4 @@
 
 # Folder containing extra libraries required for hive compilation/execution can be controlled by:
 # export HIVE_AUX_JARS_PATH=
-HADOOP_HOME=/usr/local/software/hadoop-3.3.5
+HADOOP_HOME=/usr/local/software/hadoop-3.3.6

@@ -1,18 +1,21 @@
 #!/bin/sh
 /usr/sbin/sshd
 HOSTNAME=$(hostname)
+source /etc/profile
 if [[ "$HOSTNAME" == *"slave1"* ]]; then
-    echo "1" > /usr/local/software/zookeeper-3.7.1/datadir/myid
+    echo "1" > /usr/local/software/zookeeper-3.9.0/datadir/myid
 fi
 if [[ "$HOSTNAME" == *"slave2"* ]]; then
-    echo "2" > /usr/local/software/zookeeper-3.7.1/datadir/myid
+    echo "2" > /usr/local/software/zookeeper-3.9.0/datadir/myid
 fi
 if [[ "$HOSTNAME" == *"master"* ]]; then
-    echo "0" > /usr/local/software/zookeeper-3.7.1/datadir/myid
+    echo "0" > /usr/local/software/zookeeper-3.9.0/datadir/myid
     /root/bin/zk start
-    /usr/local/software/hadoop-3.3.5/sbin/start-all.sh
-    /usr/local/software/hbase-2.4.17/bin/start-hbase.sh
-
+    /usr/local/software/hadoop-3.3.6/sbin/start-all.sh
+    /usr/local/software/hbase-2.5.5/bin/start-hbase.sh
+    /usr/local/software/hadoop-3.3.6/bin/hadoop fs -mkdir -p /spark/spark-log
+    /usr/local/software/spark-3.4.1/sbin/start-all.sh
+    /usr/local/software/spark-3.4.1/sbin/start-history-server.sh
     MYSQL_USER="root"
     MYSQL_PASSWORD="root"
     MYSQL_HOST="mysql"
@@ -31,7 +34,7 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
         # 检查端口是否开放
         if netstat -an | grep 9083 > /dev/null; then
             # 启动HiveServer2服务
-            /usr/local/software/hadoop-3.3.5/bin/hdfs dfsadmin -safemode leave
+            /usr/local/software/hadoop-3.3.6/bin/hdfs dfsadmin -safemode leave
             nohup /usr/local/software/hive-3.1.3/bin/hive --service hiveserver2 2>&1 &
             echo "启动HiveServer2服务"
             break

@@ -23,13 +23,13 @@
 export HADOOP_COMMON_HOME=/usr/local/software/hadoop-3.3.5
 
 #Set path to where hadoop-*-core.jar is available
-export HADOOP_MAPRED_HOME=/usr/local/software/hadoop-3.3.5
+export HADOOP_MAPRED_HOME=/usr/local/software/hadoop-3.3.6
 
 #set the path to where bin/hbase is available
-export HBASE_HOME=/usr/local/software/hbase-2.4.17
+export HBASE_HOME=/usr/local/software/hbase-2.5.5
 
 #Set the path to where bin/hive is available
 export HIVE_HOME=/usr/local/software/hive-3.1.3
 
 #Set the path for where zookeper config dir is
-export ZOOCFGDIR=/usr/local/software/zookeeper-3.7.1
+export ZOOCFGDIR=/usr/local/software/zookeeper-3.9.0

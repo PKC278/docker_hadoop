@@ -44,6 +44,6 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/hadoop:latest
-            ${{ secrets.DOCKER_USERNAME }}/hadoop:hadoop-3.3.5
+            ${{ secrets.DOCKER_USERNAME }}/hadoop:hadoop-3.3.6
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/hadoop:latest
-            ghcr.io/${{ secrets.DOCKER_USERNAME }}/hadoop:hadoop-3.3.5
+            ghcr.io/${{ secrets.DOCKER_USERNAME }}/hadoop:hadoop-3.3.6
