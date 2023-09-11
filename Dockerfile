@@ -89,6 +89,7 @@ RUN mv /tmp/bin /root/ \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.6/bin/hdfs namenode -format \
+    && find /usr/local/software -type f -name "*.sh" -exec chmod +x {} \; \
     && chmod +x /etc/s6-overlay/s6-rc.d/hadoop/* \
     && chmod 700 /root/.ssh \
     && chmod 600 /root/.ssh/* \
