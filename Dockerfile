@@ -85,7 +85,9 @@ RUN mv /tmp/bin /root/ \
     && echo 'export PATH=$PATH:$SCALA_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'source /etc/profile' | sudo tee -a /root/.bashrc \
     && localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8 \
+    && echo 'LC_ALL="zh_CN.UTF-8"' > /etc/locale.conf \
     && echo 'LANG="zh_CN.UTF-8"' > /etc/locale.conf \
+    && echo 'LANGUAGE="zh_CN.UTF-8"' > /etc/locale.conf \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.6/bin/hdfs namenode -format \
