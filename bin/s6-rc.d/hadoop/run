@@ -10,12 +10,14 @@ if [[ "$HOSTNAME" == *"slave2"* ]]; then
 fi
 if [[ "$HOSTNAME" == *"master"* ]]; then
     echo "0" > /usr/local/software/zookeeper-3.9.0/datadir/myid
-    /root/bin/zk start
     /usr/local/software/hadoop-3.3.6/sbin/start-all.sh
     /usr/local/software/hbase-2.5.5/bin/start-hbase.sh
     /usr/local/software/hadoop-3.3.6/bin/hadoop fs -mkdir -p /spark/spark-log
     /usr/local/software/spark-3.4.1/sbin/start-all.sh
     /usr/local/software/spark-3.4.1/sbin/start-history-server.sh
+    /root/bin/zk start
+    echo "Y" | yarn rmadmin -transitionToStandby --forcemanual rm2
+    echo "Y" | yarn rmadmin -transitionToActive --forcemanual rm1
     MYSQL_USER="root"
     MYSQL_PASSWORD="root"
     MYSQL_HOST="mysql"
@@ -43,6 +45,5 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
             sleep 1
         fi
     done
-
 fi
 echo "$HOSTNAME"启动完成
