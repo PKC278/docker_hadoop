@@ -66,6 +66,8 @@ RUN mv /tmp/bin /root/ \
     && touch /usr/local/software/zookeeper-3.9.0/datadir/myid \
     && cp /usr/local/software/hadoop-3.3.6/etc/hadoop/hdfs-site.xml /usr/local/software/hbase-2.5.5/conf/ \
     && rm -rf /tmp/* \
+    && localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8 \
+    && echo 'LANG="zh_CN.UTF-8"' > /etc/locale.conf \
     && echo 'export PATH=$PATH:/root/bin' | sudo tee -a /etc/profile \
     && echo 'export SQOOP_HOME=/usr/local/software/sqoop-1.99.7' | sudo tee -a /etc/profile \
     && echo 'export PATH=$PATH:$SQOOP_HOME/bin' | sudo tee -a /etc/profile \
@@ -83,11 +85,10 @@ RUN mv /tmp/bin /root/ \
     && echo 'export PATH=$PATH:$SPARK_HOME/bin' | sudo tee -a /etc/profile \
     && echo 'export SCALA_HOME=/usr/local/software/scala3-3.3.0' | sudo tee -a /etc/profile \
     && echo 'export PATH=$PATH:$SCALA_HOME/bin' | sudo tee -a /etc/profile \
+    && echo 'export LC_ALL=zh_CN.UTF-8' | sudo tee -a /etc/profile \
+    && echo 'export LANG=zh_CN.UTF-8' | sudo tee -a /etc/profile \
+    && echo 'export LANGUAGE=zh_CN.UTF-8' | sudo tee -a /etc/profile \
     && echo 'source /etc/profile' | sudo tee -a /root/.bashrc \
-    && localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8 \
-    && echo 'LC_ALL="zh_CN.UTF-8"' > /etc/locale.conf \
-    && echo 'LANG="zh_CN.UTF-8"' > /etc/locale.conf \
-    && echo 'LANGUAGE="zh_CN.UTF-8"' > /etc/locale.conf \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && chmod 777 /root/bin/* \
     && /usr/local/software/hadoop-3.3.6/bin/hdfs namenode -format \
