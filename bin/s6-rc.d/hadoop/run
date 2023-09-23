@@ -16,22 +16,19 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
     /usr/local/software/spark-3.4.1/sbin/start-all.sh
     /usr/local/software/spark-3.4.1/sbin/start-history-server.sh
     /root/bin/zk start
-    echo "Y" | yarn rmadmin -transitionToStandby --forcemanual rm2
-    echo "Y" | yarn rmadmin -transitionToActive --forcemanual rm1
-    MYSQL_USER="root"
-    MYSQL_PASSWORD="root"
-    MYSQL_HOST="mysql"
-    MYSQL_DATABASE="hive"
+    echo "Y" | yarn rmadmin -transitionToStandby --forcemanual rm2 > /dev/null 2>&1
+    echo "Y" | yarn rmadmin -transitionToActive --forcemanual rm1 > /dev/null 2>&1
     # 验证数据库是否存在
-    if mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST -e "use $MYSQL_DATABASE"; then
-    echo "数据库已存在，跳过初始化"
+    if mysql -u root -proot -h mysql -e "use hive" > /dev/null 2>&1; then
+        echo "数据库已存在，跳过初始化"
     else
-    /usr/local/software/hive-3.1.3/bin/schematool -initSchema -dbType mysql
-    echo "数据库初始化完成"
+        /usr/local/software/hive-3.1.3/bin/schematool -initSchema -dbType mysql > /dev/null 2>&1
+        echo "数据库初始化完成"
     fi
     nohup /usr/local/software/hive-3.1.3/bin/hive --service metastore 2>&1 &
     echo "启动hive元数据服务"
     echo "等待启动HiveServer2服务"
+    echo "hive元数据服务未就绪，等待中..."
     while true; do
         # 检查端口是否开放
         if netstat -an | grep 9083 > /dev/null; then
@@ -41,7 +38,16 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
             echo "启动HiveServer2服务"
             break
         else
-            echo "hive元数据服务未就绪，等待中..."
+            sleep 1
+        fi
+    done
+    while true; do
+        # 尝试连接到Hive Server 2并执行查询
+        beeline -u "jdbc:hive2://localhost:10000" -e "SELECT 1;" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echo "HiveServer2服务启动完成"
+            break
+        else
             sleep 1
         fi
     done
