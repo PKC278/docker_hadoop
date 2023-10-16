@@ -12,7 +12,7 @@
 - mysql-community-client_8
 - jdk8
 - spark-3.5.0
-- scala3-3.3.1
+- scala-2.13.12
 
 已配置mysql为默认Metastore Database
 
