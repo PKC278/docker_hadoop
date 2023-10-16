@@ -4,7 +4,15 @@
 
 镜像包含以下服务：
 
-hadoop-3.3.6  hbase-2.5.5  zookeeper-3.9.0  apache-hive-3.1.3  sqoop-1.4.7  mysql-community-client_8  jdk8  spark-3.4.1 scala3-3.3.0
+- hadoop-3.3.6
+- hbase-2.5.5
+- zookeeper-3.8.3
+- apache-hive-3.1.3
+- sqoop-1.4.7
+- mysql-community-client_8
+- jdk8
+- spark-3.5.0
+- scala3-3.3.1
 
 已配置mysql为默认Metastore Database
 

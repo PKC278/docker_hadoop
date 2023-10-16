@@ -3,18 +3,18 @@
 HOSTNAME=$(hostname)
 source /etc/profile
 if [[ "$HOSTNAME" == *"slave1"* ]]; then
-    echo "1" > /usr/local/software/zookeeper-3.9.0/datadir/myid
+    echo "1" > /usr/local/software/zookeeper-3.8.3/datadir/myid
 fi
 if [[ "$HOSTNAME" == *"slave2"* ]]; then
-    echo "2" > /usr/local/software/zookeeper-3.9.0/datadir/myid
+    echo "2" > /usr/local/software/zookeeper-3.8.3/datadir/myid
 fi
 if [[ "$HOSTNAME" == *"master"* ]]; then
-    echo "0" > /usr/local/software/zookeeper-3.9.0/datadir/myid
+    echo "0" > /usr/local/software/zookeeper-3.8.3/datadir/myid
     /usr/local/software/hadoop-3.3.6/sbin/start-all.sh
     /usr/local/software/hbase-2.5.5/bin/start-hbase.sh
     /usr/local/software/hadoop-3.3.6/bin/hadoop fs -mkdir -p /spark/spark-log
-    /usr/local/software/spark-3.4.1/sbin/start-all.sh
-    /usr/local/software/spark-3.4.1/sbin/start-history-server.sh
+    /usr/local/software/spark-3.5.0/sbin/start-all.sh
+    /usr/local/software/spark-3.5.0/sbin/start-history-server.sh
     /root/bin/zk start
     echo "Y" | yarn rmadmin -transitionToStandby --forcemanual rm2 > /dev/null 2>&1
     echo "Y" | yarn rmadmin -transitionToActive --forcemanual rm1 > /dev/null 2>&1

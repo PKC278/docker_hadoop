@@ -32,4 +32,4 @@ export HBASE_HOME=/usr/local/software/hbase-2.5.5
 export HIVE_HOME=/usr/local/software/hive-3.1.3
 
 #Set the path for where zookeper config dir is
-export ZOOCFGDIR=/usr/local/software/zookeeper-3.9.0
+export ZOOCFGDIR=/usr/local/software/zookeeper-3.8.3
