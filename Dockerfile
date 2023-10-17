@@ -67,6 +67,7 @@ RUN rpm -ivh /usr/local/software/data/mysql.rpm \
     && yum update -y \
     && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo mysql-community-client \
     && yum clean all \
+    && rm -rf /var/cache/yum \
     && mkdir -p /root/.ssh \
     && mv /usr/local/software/data/bin /root/ \
     && mv /usr/local/software/data/ssh_key/* /etc/ssh/ \
