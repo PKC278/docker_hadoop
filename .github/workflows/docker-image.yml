@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     name: Build Docker Image
     steps:
       - name: Checkout

@@ -1,8 +1,7 @@
-FROM centos:centos7
-RUN yum update -y \
-    && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo \
+FROM centos:centos7 as base
+RUN yum makecache \
+    && yum install -y wget ca-certificates openssl \
     && mkdir -p /usr/local/software \
-    && mkdir -p /root/.ssh \
     && wget -O /tmp/hbase.tar.gz https://dlcdn.apache.org/hbase/stable/hbase-2.5.5-bin.tar.gz \
     && wget -O /tmp/zookeeper.tar.gz https://dlcdn.apache.org/zookeeper/stable/apache-zookeeper-3.8.3-bin.tar.gz \
     && wget -O /tmp/hive.tar.gz https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz \
@@ -13,10 +12,6 @@ RUN yum update -y \
     && wget -O /tmp/mysql.rpm https://dev.mysql.com/get/mysql80-community-release-el7-10.noarch.rpm \
     && wget -O /tmp/s6-overlay-noarch.tar.xz https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz \
     && wget -O /tmp/scala.tar.gz https://downloads.lightbend.com/scala/2.13.12/scala-2.13.12.tgz \
-    && rpm -ivh /tmp/mysql.rpm \
-    && yum update -y \
-    && yum install -y mysql-community-client \
-    && yum clean all \
     && if [ "$(uname -m)" = "aarch64" ]; then \
     wget -O /tmp/s6-overlay.tar.xz https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-aarch64.tar.xz  && \
     wget -O /tmp/jdk.tar.gz https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u372-b07/OpenJDK8U-jdk_aarch64_linux_hotspot_8u372b07.tar.gz && \
@@ -27,13 +22,8 @@ RUN yum update -y \
     wget -O /tmp/hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz ; \
     fi
 
-WORKDIR /root
 COPY bin /tmp/
-
-RUN mv /tmp/bin /root/ \
-    && mv /tmp/ssh_key/* /etc/ssh/ \
-    && mv /tmp/ssh/* /root/.ssh/ \
-    && tar -zxvf /tmp/jdk.tar.gz -C /usr/local/software/ > /dev/null \
+RUN tar -zxvf /tmp/jdk.tar.gz -C /usr/local/software/ > /dev/null \
     && tar -zxvf /tmp/hadoop.tar.gz -C /usr/local/software/ > /dev/null \
     && tar -zxvf /tmp/hbase.tar.gz -C /usr/local/software/ > /dev/null \
     && tar -zxvf /tmp/zookeeper.tar.gz -C /usr/local/software/ > /dev/null \
@@ -44,8 +34,6 @@ RUN mv /tmp/bin /root/ \
     && tar -zxvf /tmp/mysql-connector-j.tar.gz -C /tmp/ > /dev/null \
     && tar -zxvf /tmp/scala.tar.gz -C /usr/local/software/ > /dev/null \
     && mv /usr/local/software/apache-hive-3.1.3-bin/ /usr/local/software/hive-3.1.3 \
-    && tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz > /dev/null \
-    && tar -C / -Jxpf /tmp/s6-overlay.tar.xz > /dev/null \
     && mv /usr/local/software/apache-zookeeper-3.8.3-bin/ /usr/local/software/zookeeper-3.8.3 \
     && mv /usr/local/software/spark-3.5.0-bin-hadoop3-scala2.13 /usr/local/software/spark-3.5.0 \
     && mv /tmp/hadoop/* /usr/local/software/hadoop-3.3.6/etc/hadoop/ \
@@ -58,14 +46,35 @@ RUN mv /tmp/bin /root/ \
     && mv /tmp/sqoop-1.4.7.bin__hadoop-2.6.0/sqoop-1.4.7.jar /usr/local/software/hadoop-3.3.6/share/hadoop/yarn/ \
     && cp /tmp/mysql-connector-j-8.1.0/mysql-connector-j-8.1.0.jar /usr/local/software/sqoop-1.4.7/lib/ \
     && cp /tmp/mysql-connector-j-8.1.0/mysql-connector-j-8.1.0.jar /usr/local/software/hive-3.1.3/lib/ \
-    && mv /tmp/s6-rc.d/hadoop /etc/s6-overlay/s6-rc.d/ \
-    && touch /etc/s6-overlay/s6-rc.d/user/contents.d/hadoop \
     && mkdir -p /usr/local/software/hbase-2.5.5/data/tmp \
     && mkdir -p /usr/local/software/zookeeper-3.8.3/datadir \
     && mkdir -p /usr/local/software/zookeeper-3.8.3/log \
     && touch /usr/local/software/zookeeper-3.8.3/datadir/myid \
     && cp /usr/local/software/hadoop-3.3.6/etc/hadoop/hdfs-site.xml /usr/local/software/hbase-2.5.5/conf/ \
-    && rm -rf /tmp/* \
+    && mkdir -p /usr/local/software/data \
+    && mv /tmp/bin /usr/local/software/data/ \
+    && mv /tmp/ssh_key /usr/local/software/data/ \
+    && mv /tmp/ssh /usr/local/software/data/ \
+    && mv /tmp/s6-overlay-noarch.tar.xz /usr/local/software/data/ \
+    && mv /tmp/s6-overlay.tar.xz /usr/local/software/data/ \
+    && mv /tmp/s6-rc.d /usr/local/software/data/ \
+    && mv /tmp/mysql.rpm /usr/local/software/data/
+
+FROM centos:centos7
+COPY --from=base /usr/local/software /usr/local/software
+
+RUN rpm -ivh /usr/local/software/data/mysql.rpm \
+    && yum update -y \
+    && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo mysql-community-client \
+    && yum clean all \
+    && mkdir -p /root/.ssh \
+    && mv /usr/local/software/data/bin /root/ \
+    && mv /usr/local/software/data/ssh_key/* /etc/ssh/ \
+    && mv /usr/local/software/data/ssh/* /root/.ssh/ \
+    && tar -C / -Jxpf /usr/local/software/data/s6-overlay-noarch.tar.xz > /dev/null \
+    && tar -C / -Jxpf /usr/local/software/data/s6-overlay.tar.xz > /dev/null \
+    && mv /usr/local/software/data/s6-rc.d/hadoop /etc/s6-overlay/s6-rc.d/ \
+    && touch /etc/s6-overlay/s6-rc.d/user/contents.d/hadoop \
     && localedef -c -f UTF-8 -i zh_CN zh_CN.UTF-8 \
     && echo 'LANG="zh_CN.UTF-8"' > /etc/locale.conf \
     && echo 'export PATH=$PATH:/root/bin' | sudo tee -a /etc/profile \
@@ -102,7 +111,9 @@ RUN mv /tmp/bin /root/ \
     && sed  's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd \
     && sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \
-    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+    && rm -rf /usr/local/software/data \
+    && rm -rf /tmp/*
 
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
 ENTRYPOINT ["/init"]
