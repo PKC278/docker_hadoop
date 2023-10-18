@@ -10,6 +10,10 @@ if [[ "$HOSTNAME" == *"slave2"* ]]; then
 fi
 if [[ "$HOSTNAME" == *"master"* ]]; then
     echo "0" > /usr/local/software/zookeeper-3.8.3/datadir/myid
+    NAMENODE_DIR="/usr/local/software/hadoop-3.3.6/cloud/dfs/name"
+    if [ ! -d "$NAMENODE_DIR" ] || [ -z "$(ls -A $NAMENODE_DIR)" ]; then
+        hdfs namenode -format
+    fi
     /usr/local/software/hadoop-3.3.6/sbin/start-all.sh
     /usr/local/software/hbase-2.5.5/bin/start-hbase.sh
     /usr/local/software/hadoop-3.3.6/bin/hadoop fs -mkdir -p /spark/spark-log

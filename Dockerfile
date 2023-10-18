@@ -1,6 +1,6 @@
-FROM centos:centos7 as base
+FROM centos:centos7 as builder
 RUN yum makecache \
-    && yum install -y wget ca-certificates openssl \
+    && yum install -y wget ca-certificates openssl tar \
     && mkdir -p /usr/local/software \
     && wget -O /tmp/hbase.tar.gz https://dlcdn.apache.org/hbase/stable/hbase-2.5.5-bin.tar.gz \
     && wget -O /tmp/zookeeper.tar.gz https://dlcdn.apache.org/zookeeper/stable/apache-zookeeper-3.8.3-bin.tar.gz \
@@ -60,8 +60,8 @@ RUN tar -zxvf /tmp/jdk.tar.gz -C /usr/local/software/ > /dev/null \
     && mv /tmp/s6-rc.d /usr/local/software/data/ \
     && mv /tmp/mysql.rpm /usr/local/software/data/
 
-FROM centos:centos7
-COPY --from=base /usr/local/software /usr/local/software
+FROM centos:centos7 as runtime
+COPY --from=builder /usr/local/software /usr/local/software
 
 RUN rpm -ivh /usr/local/software/data/mysql.rpm \
     && yum update -y \
@@ -100,8 +100,7 @@ RUN rpm -ivh /usr/local/software/data/mysql.rpm \
     && echo 'export LANGUAGE=zh_CN.UTF-8' | sudo tee -a /etc/profile \
     && echo 'source /etc/profile' | sudo tee -a /root/.bashrc \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && chmod 777 /root/bin/* \
-    && /usr/local/software/hadoop-3.3.6/bin/hdfs namenode -format \
+    && chmod +x /root/bin/* \
     && find /usr/local/software -type f -name "*.sh" -exec chmod +x {} \; \
     && chmod +x /etc/s6-overlay/s6-rc.d/hadoop/* \
     && chmod 700 /root/.ssh \
@@ -116,5 +115,7 @@ RUN rpm -ivh /usr/local/software/data/mysql.rpm \
     && rm -rf /usr/local/software/data \
     && rm -rf /tmp/*
 
+WORKDIR /root
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
+ENV QEMU_CORE_DUMP 0
 ENTRYPOINT ["/init"]
