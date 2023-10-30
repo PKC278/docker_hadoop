@@ -1,6 +1,6 @@
 FROM centos:centos7 as builder
 RUN yum makecache \
-    && yum install -y wget ca-certificates openssl tar \
+    && yum install -y wget ca-certificates \
     && mkdir -p /usr/local/software \
     && wget -O /tmp/hbase.tar.gz https://dlcdn.apache.org/hbase/stable/hbase-2.5.5-bin.tar.gz \
     && wget -O /tmp/zookeeper.tar.gz https://dlcdn.apache.org/zookeeper/stable/apache-zookeeper-3.8.3-bin.tar.gz \
@@ -113,9 +113,9 @@ RUN rpm -ivh /usr/local/software/data/mysql.rpm \
     && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
     && rm -rf /usr/local/software/data \
-    && rm -rf /tmp/*
+    && rm -rf /tmp/* \
+    && find / -name "*.core" -exec rm -f {} \;
 
 WORKDIR /root
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0
-ENV QEMU_CORE_DUMP 0
 ENTRYPOINT ["/init"]
