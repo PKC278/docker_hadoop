@@ -65,7 +65,7 @@ COPY --from=builder /usr/local/software /usr/local/software
 
 RUN rpm -ivh /usr/local/software/data/mysql.rpm \
     && yum update -y \
-    && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo mysql-community-client \
+    && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo mysql-community-client nc \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && mkdir -p /root/.ssh \
