@@ -19,27 +19,25 @@ if [[ "$HOSTNAME" == *"master"* ]]; then
     /usr/local/software/hadoop-3.3.6/bin/hadoop fs -mkdir -p /spark/spark-log
     /usr/local/software/spark-3.5.0/sbin/start-all.sh
     /usr/local/software/spark-3.5.0/sbin/start-history-server.sh
-    /root/bin/zk start
+    /root/bin/zk restart
     echo "Y" | yarn rmadmin -transitionToStandby --forcemanual rm2 > /dev/null 2>&1
     echo "Y" | yarn rmadmin -transitionToActive --forcemanual rm1 > /dev/null 2>&1
     # 验证数据库是否存在
-    if mysql -u root -proot -h mysql -e "use hive" > /dev/null 2>&1; then
+    if mysql -uroot -proot -hmysql -e"use hive" > /dev/null 2>&1; then
         echo "数据库已存在，跳过初始化"
     else
         /usr/local/software/hive-3.1.3/bin/schematool -initSchema -dbType mysql > /dev/null 2>&1
         echo "数据库初始化完成"
     fi
-    nohup /usr/local/software/hive-3.1.3/bin/hive --service metastore 2>&1 &
     echo "启动hive元数据服务"
-    echo "等待启动HiveServer2服务"
-    echo "hive元数据服务未就绪，等待中..."
+    nohup /usr/local/software/hive-3.1.3/bin/hive --service metastore 2>&1 &
     while true; do
         # 检查端口是否开放
         if netstat -an | grep 9083 > /dev/null; then
             # 启动HiveServer2服务
-            /usr/local/software/hadoop-3.3.6/bin/hdfs dfsadmin -safemode leave
-            nohup /usr/local/software/hive-3.1.3/bin/hive --service hiveserver2 2>&1 &
+            echo "hive元数据服务启动完成"
             echo "启动HiveServer2服务"
+            nohup /usr/local/software/hive-3.1.3/bin/hive --service hiveserver2 2>&1 &
             break
         else
             sleep 1

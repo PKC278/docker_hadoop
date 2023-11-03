@@ -9,9 +9,6 @@ services:
       - "8088:8088"
       - "9000:22"
       - "8080:8080"
-    networks:
-      hadoop:
-        ipv4_address: 172.28.1.1
     depends_on:
       - slave1
       - slave2
@@ -20,16 +17,10 @@ services:
     image: pkc278/hadoop:latest
     container_name: CentOS_slave1
     hostname: slave1
-    networks:
-      hadoop:
-        ipv4_address: 172.28.1.2
   slave2:
     image: pkc278/hadoop:latest
     container_name: CentOS_slave2
     hostname: slave2
-    networks:
-      hadoop:
-        ipv4_address: 172.28.1.3
   mysql:
     image: mysql:latest
     container_name: MySQL
@@ -38,13 +29,3 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     ports:
       - "3316:3306"
-    networks:
-      hadoop:
-        ipv4_address: 172.28.1.4
-networks:
-  hadoop:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.28.0.0/16

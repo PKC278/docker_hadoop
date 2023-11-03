@@ -9,7 +9,6 @@ RUN yum makecache \
     && wget -O /tmp/sqoop.bin.tar.gz https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz \
     && wget -O /tmp/spark.bin.tar.gz https://dlcdn.apache.org/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3-scala2.13.tgz \
     && wget -O /tmp/mysql-connector-j.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.1.0.tar.gz \
-    && wget -O /tmp/mysql.rpm https://dev.mysql.com/get/mysql80-community-release-el7-10.noarch.rpm \
     && wget -O /tmp/s6-overlay-noarch.tar.xz https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz \
     && wget -O /tmp/scala.tar.gz https://downloads.lightbend.com/scala/2.13.12/scala-2.13.12.tgz \
     && if [ "$(uname -m)" = "aarch64" ]; then \
@@ -57,18 +56,18 @@ RUN tar -zxvf /tmp/jdk.tar.gz -C /usr/local/software/ > /dev/null \
     && mv /tmp/ssh /usr/local/software/data/ \
     && mv /tmp/s6-overlay-noarch.tar.xz /usr/local/software/data/ \
     && mv /tmp/s6-overlay.tar.xz /usr/local/software/data/ \
-    && mv /tmp/s6-rc.d /usr/local/software/data/ \
-    && mv /tmp/mysql.rpm /usr/local/software/data/
+    && mv /tmp/s6-rc.d /usr/local/software/data/
 
 FROM centos:centos7 as runtime
-COPY --from=builder /usr/local/software /usr/local/software
-
-RUN rpm -ivh /usr/local/software/data/mysql.rpm \
+ADD https://dev.mysql.com/get/mysql80-community-release-el7-10.noarch.rpm /tmp/mysql.rpm
+RUN rpm -ivh /tmp/mysql.rpm \
     && yum update -y \
     && yum install -y rsync wget tar which net-tools openssh-clients openssh-server passwd openssl kde-l10n-Chinese sudo mysql-community-client nc \
     && yum clean all \
-    && rm -rf /var/cache/yum \
-    && mkdir -p /root/.ssh \
+    && rm -rf /tmp/*
+
+COPY --from=builder /usr/local/software /usr/local/software
+RUN mkdir -p /root/.ssh \
     && mv /usr/local/software/data/bin /root/ \
     && mv /usr/local/software/data/ssh_key/* /etc/ssh/ \
     && mv /usr/local/software/data/ssh/* /root/.ssh/ \
